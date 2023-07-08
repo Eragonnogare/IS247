@@ -17,27 +17,32 @@ public class Main {
             System.out.println("3. Create Instructor");
             System.out.println("4. View All Courses");
             System.out.println("5. Exit");
-            int choice = sc.nextInt();
-            sc.nextLine();  // consume newline left-over
-            switch (choice) {
-                case 1:
-                    login();
-                    break;
-                case 2:
-                    createStudent();
-                    break;
-                case 3:
-                    createInstructor();
-                    break;
-                case 4:
-                    lms.viewAllCourses();
-                    break;
-                case 5:
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again");
-                    break;
+            String input = sc.nextLine();
+            try {
+                int choice = Integer.parseInt(input);
+                switch (choice) {
+                    case 1:
+                        login();
+                        break;
+                    case 2:
+                        createStudent();
+                        break;
+                    case 3:
+                        createInstructor();
+                        break;
+                    case 4:
+                        lms.viewAllCourses();
+                        break;
+                    case 5:
+                        exit = true;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                // if the input was not a number, catch the exception and print an error message
+                System.out.println("Invalid option! Try again");
             }
         }
     }
@@ -68,27 +73,32 @@ public class Main {
             System.out.println("3. Leave Course");
             System.out.println("4. View Course Materials");
             System.out.println("5. Logout");
-            int choice = sc.nextInt();
-            sc.nextLine();  // consume newline left-over
-            switch (choice) {
-                case 1:
-                    lms.viewStudentCourses((Student) loggedInUser);
-                    break;
-                case 2:
-                    joinCourse();
-                    break;
-                case 3:
-                    leaveCourse();
-                    break;
-                case 4:
-                    viewCourseMaterials();
-                    break;
-                case 5:
-                    logout = true;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again");
-                    break;
+            String input = sc.nextLine();
+            try {
+                int choice = Integer.parseInt(input);  // try to convert the input to an integer
+                switch (choice) {
+                    case 1:
+                        lms.viewStudentCourses((Student) loggedInUser);
+                        break;
+                    case 2:
+                        joinCourse();
+                        break;
+                    case 3:
+                        leaveCourse();
+                        break;
+                    case 4:
+                        viewCourseMaterials();
+                        break;
+                    case 5:
+                        logout = true;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                // if the input was not a number, catch the exception and print an error message
+                System.out.println("Invalid option! Try again");
             }
         }
     }
@@ -101,27 +111,32 @@ public class Main {
             System.out.println("3. Add Student to Course");
             System.out.println("4. Remove Student from Course");
             System.out.println("5. Logout");
-            int choice = sc.nextInt();
-            sc.nextLine();  // consume newline left-over
-            switch (choice) {
-                case 1:
-                    createCourse();
-                    break;
-                case 2:
-                    addCourseMaterial();
-                    break;
-                case 3:
-                    addStudentToCourse();
-                    break;
-                case 4:
-                    removeStudentFromCourse();
-                    break;
-                case 5:
-                    logout = true;
-                    break;
-                default:
-                    System.out.println("Invalid option! Try again");
-                    break;
+            String input = sc.nextLine();
+            try {
+                int choice = Integer.parseInt(input);  // try to convert the input to an integer
+                switch (choice) {
+                    case 1:
+                        createCourse();
+                        break;
+                    case 2:
+                        addCourseMaterial();
+                        break;
+                    case 3:
+                        addStudentToCourse();
+                        break;
+                    case 4:
+                        removeStudentFromCourse();
+                        break;
+                    case 5:
+                        logout = true;
+                        break;
+                    default:
+                        System.out.println("Invalid option! Try again");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                // if the input was not a number, catch the exception and print an error message
+                System.out.println("Invalid option! Try again");
             }
         }
     }
