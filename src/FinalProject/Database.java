@@ -16,9 +16,28 @@ public class Database {
         this.users.add(user);
     }
 
+    public void addUser(String username, String password, String type) {
+        if (type.equalsIgnoreCase("Instructor")) {
+            this.users.add(new Instructor(username, password));
+        } else if (type.equalsIgnoreCase("Student")) {
+            this.users.add(new Student(username, password));
+        } else {
+            System.out.println("Invalid user type. User not added.");
+        }
+    }
+
     public User getUser(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.checkPassword(password)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User getUserByName(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
                 return user;
             }
         }
@@ -45,4 +64,5 @@ public class Database {
     public List<User> getAllUsers() {
         return this.users;
     }
+
 }

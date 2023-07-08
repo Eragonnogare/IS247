@@ -8,7 +8,7 @@ public class Main {
     private static User loggedInUser = null;
     private static final Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         boolean exit = false;
         System.out.println("Welcome to the LMS");
         while (!exit) {
@@ -42,7 +42,7 @@ public class Main {
         }
     }
 
-    private static void login() {
+    private static void login()  {
         System.out.println("Enter username:");
         String username = sc.nextLine();
         System.out.println("Enter password:");
@@ -65,8 +65,9 @@ public class Main {
         while (!logout) {
             System.out.println("1. View Courses");
             System.out.println("2. Join Course");
-            System.out.println("3. View Course Materials");
-            System.out.println("4. Logout");
+            System.out.println("3. Leave Course");
+            System.out.println("4. View Course Materials");
+            System.out.println("5. Logout");
             int choice = sc.nextInt();
             sc.nextLine();  // consume newline left-over
             switch (choice) {
@@ -77,9 +78,12 @@ public class Main {
                     joinCourse();
                     break;
                 case 3:
-                    viewCourseMaterials();
+                    leaveCourse();
                     break;
                 case 4:
+                    viewCourseMaterials();
+                    break;
+                case 5:
                     logout = true;
                     break;
                 default:
@@ -89,12 +93,14 @@ public class Main {
         }
     }
 
-    private static void instructorMenu() {
+    private static void instructorMenu()  {
         boolean logout = false;
         while (!logout) {
             System.out.println("1. Create Course");
             System.out.println("2. Add Course Material");
-            System.out.println("3. Logout");
+            System.out.println("3. Add Student to Course");
+            System.out.println("4. Remove Student from Course");
+            System.out.println("5. Logout");
             int choice = sc.nextInt();
             sc.nextLine();  // consume newline left-over
             switch (choice) {
@@ -105,6 +111,12 @@ public class Main {
                     addCourseMaterial();
                     break;
                 case 3:
+                    addStudentToCourse();
+                    break;
+                case 4:
+                    removeStudentFromCourse();
+                    break;
+                case 5:
                     logout = true;
                     break;
                 default:
@@ -155,11 +167,48 @@ public class Main {
         lms.joinCourse(courseName, (Student) loggedInUser);
     }
 
+    private static void leaveCourse() {
+        System.out.println("Enter course name to leave:");
+        String courseName = sc.nextLine();
+        lms.leaveCourse(courseName, (Student) loggedInUser);
+    }
+
+    private static void addStudentToCourse()  {
+        System.out.println("Enter course name:");
+        String courseName = sc.nextLine();
+        System.out.println("Enter student username:");
+        String studentName = sc.nextLine();
+        lms.instructorAddStudent(courseName, studentName, (Instructor) loggedInUser);
+    }
+
+    private static void removeStudentFromCourse()  {
+        System.out.println("Enter course name:");
+        String courseName = sc.nextLine();
+        System.out.println("Enter student username:");
+        String studentName = sc.nextLine();
+        lms.instructorRemoveStudent(courseName, studentName, (Instructor) loggedInUser);
+    }
+
+
     private static void viewCourseMaterials() {
         System.out.println("Enter course name:");
         String courseName = sc.nextLine();
+        Course course = lms.getDatabase().getCourseByName(courseName);
+
+        if(course == null) {
+            System.out.println("Course not found!");
+            return;
+        }
+
+        if(!course.getStudents().contains(loggedInUser)) {
+            System.out.println("You are not enrolled in this course!");
+            return;
+        }
+
         System.out.println("Enter module name:");
         String moduleName = sc.nextLine();
         lms.viewCourseMaterials(courseName, moduleName);
     }
+
+
 }

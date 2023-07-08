@@ -2,24 +2,32 @@ package FinalProject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Stack;
 
 public class LMS {
     private Database database;
+    private Stack<User> userLog;  // Stack to hold logged-in users
 
     public LMS() {
         database = new Database();
+        userLog = new Stack<>();
     }
 
     public User login(String username, String password) {
-        return database.getUser(username, password);
+        User user = database.getUser(username, password);
+        if (user != null) {
+            userLog.push(user); // Push user into the stack on successful login
+            return user;
+        }
+        return null;
     }
 
     public void createStudent(String username, String password) {
-        database.addUser(new Student(username, password));
+        database.addUser(username, password, "Student");
     }
 
     public void createInstructor(String username, String password) {
-        database.addUser(new Instructor(username, password));
+        database.addUser(username, password, "Instructor");
     }
 
     public void createCourse(String courseName, Instructor instructor) {
@@ -89,4 +97,57 @@ public class LMS {
             }
         }
     }
+
+    public void leaveCourse(String courseName, Student student) {
+        Course course = database.getCourseByName(courseName);
+        if (course == null) {
+            System.out.println("Course does not exist!");
+            return;
+        }
+        course.removeStudent(student);
+        System.out.println("You've successfully left the course: " + courseName);
+    }
+
+    public void instructorAddStudent(String courseName, String studentName, Instructor instructor)  {
+        Course course = database.getCourseByName(courseName);
+        User user = database.getUserByName(studentName);
+        if (course == null) {
+            System.out.println("Course does not exist!");
+            return;
+        }
+        if (!course.getInstructor().getUsername().equals(instructor.getUsername())) {
+            System.out.println("You do not have permission to modify this course!");
+            return;
+        }
+        if (user instanceof Student) {
+            course.addStudent((Student) user);
+            System.out.println("Student added successfully to the course!");
+        } else {
+            System.out.println("User is not a Student!");
+        }
+    }
+
+    public void instructorRemoveStudent(String courseName, String studentName, Instructor instructor)  {
+        Course course = database.getCourseByName(courseName);
+        User user = database.getUserByName(studentName);
+        if (course == null) {
+            System.out.println("Course does not exist!");
+            return;
+        }
+        if (!course.getInstructor().getUsername().equals(instructor.getUsername())) {
+            System.out.println("You do not have permission to modify this course!");
+            return;
+        }
+        if (user instanceof Student) {
+            course.removeStudent((Student) user);
+            System.out.println("Student removed successfully from the course!");
+        } else {
+            System.out.println("User is not a Student!");
+        }
+    }
+
+    public Database getDatabase() {
+        return this.database;
+    }
+
 }
