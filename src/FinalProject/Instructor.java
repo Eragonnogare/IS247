@@ -1,8 +1,7 @@
 package FinalProject;
 
-import java.util.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Instructor extends User {
     private List<Course> courses;
@@ -21,9 +20,7 @@ public class Instructor extends User {
         this.courses.add(course);
     }
 
-    public void viewCourses() {
-        for (Course course : courses) {
-            System.out.println(course.getCourseName());
-        }
+    public List<Course> getCourses() {
+        return this.courses;
     }
 }

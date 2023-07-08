@@ -1,6 +1,7 @@
 package FinalProject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Module {
     private String moduleName;
@@ -11,18 +12,15 @@ public class Module {
         this.materials = new ArrayList<>();
     }
 
-    public void addMaterial(String material) {
-        materials.add(material);
-    }
-
-    public void viewMaterials() {
-        System.out.println("Module: " + moduleName);
-        for (String material : materials) {
-            System.out.println(material);
-        }
-    }
-
     public String getModuleName() {
         return moduleName;
+    }
+
+    public void addMaterial(String material) {
+        this.materials.add(material);
+    }
+
+    public List<String> getMaterials() {
+        return materials;
     }
 }

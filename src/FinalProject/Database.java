@@ -8,23 +8,41 @@ public class Database {
     private List<Course> courses;
 
     public Database() {
-        users = new ArrayList<>();
-        courses = new ArrayList<>();
+        this.users = new ArrayList<>();
+        this.courses = new ArrayList<>();
     }
 
     public void addUser(User user) {
-        users.add(user);
+        this.users.add(user);
+    }
+
+    public User getUser(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.checkPassword(password)) {
+                return user;
+            }
+        }
+        return null;
     }
 
     public void addCourse(Course course) {
-        courses.add(course);
+        this.courses.add(course);
+    }
+
+    public Course getCourseByName(String courseName) {
+        for (Course course : courses) {
+            if (course.getCourseName().equals(courseName)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
+    public List<Course> getCourses() {
+        return this.courses;
     }
 
     public List<User> getAllUsers() {
-        return users;
-    }
-
-    public List<Course> getAllCourses() {
-        return courses;
+        return this.users;
     }
 }

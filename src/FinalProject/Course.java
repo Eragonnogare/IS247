@@ -1,52 +1,52 @@
 package FinalProject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Course {
     private String courseName;
-    private Instructor instructor;
-    private List<Student> students;
     private List<Module> modules;
+    private List<Student> students;
+    private Instructor instructor;
 
     public Course(String courseName, Instructor instructor) {
         this.courseName = courseName;
-        this.instructor = instructor;
-        this.students = new ArrayList<>();
         this.modules = new ArrayList<>();
-        instructor.addCourse(this);
+        this.students = new ArrayList<>();
+        this.instructor = instructor;
     }
 
-    public void addStudent(Student student) {
-        this.students.add(student);
-        student.addCourse(this);
-    }
-
-    public void addModule(Module module) {
-        modules.add(module);
+    public String getCourseName() {
+        return courseName;
     }
 
     public List<Module> getModules() {
         return modules;
     }
 
-    public void viewMaterials() {
-        for (Module module : modules) {
-            module.viewMaterials();
-        }
+    public void addModule(Module module) {
+        this.modules.add(module);
     }
 
-    public void printCourseHierarchy() {
-        System.out.println(courseName);
-        for (Module module : modules) {
-            System.out.println("  Module: " + module.getModuleName());
-        }
+    public void addStudent(Student student) {
+        this.students.add(student);
     }
 
     public List<Student> getStudents() {
         return students;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public Instructor getInstructor() {
+        return instructor;
     }
+
+    public Module getModuleByName(String moduleName) {
+        for (Module module : modules) {
+            if (module.getModuleName().equals(moduleName)) {
+                return module;
+            }
+        }
+        return null;
+    }
+
 }
